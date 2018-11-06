@@ -12,6 +12,28 @@ package instant.message;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
+import javax.swing.*;
+
+public class GUI extends JFrame{
+
+	public static void main(String [] args){
+		
+	}
+	
+	//Constructor
+	public GUI(){
+		//send button
+		//user text field
+		//chat window
+		//close when hit close button
+		//make the frame
+		
+		//Make the Frame
+		
+	}
+	
+}
+
 
 public class UDPFrame extends Frame implements ActionListener, Runnable
 {
@@ -20,8 +42,10 @@ public class UDPFrame extends Frame implements ActionListener, Runnable
 	Label label3 = new Label("My Name Is");
 	Label label4 = new Label("I wanna to send message to", 1);
 	Label label5 = new Label();
+	
 	Button b = new Button ("SEND");
 	List list = new List();
+	
 	TextField tPort = new TextField("1111", 10);
 	TextField tMes = new TextField(60);
 	TextField tName = new TextField(10);
@@ -36,10 +60,12 @@ public class UDPFrame extends Frame implements ActionListener, Runnable
 		setSize(605,536);
 		setLocation(50,50);
 		setFont(new Font("Dialog", Font.BOLD, 14));
+		
 		Panel p = new Panel();
 		Panel p0 = new Panel();
 		Panel p1 = new Panel();
 		Panel p2 = new Panel();
+		
 		p.setLayout(new GridLayout(4,1));
 		p0.add(label3);
 		p0.add(tName);
@@ -54,8 +80,10 @@ public class UDPFrame extends Frame implements ActionListener, Runnable
 		p2.add(tMes);
 		p2.add(b);
 		p.add(p2);
+		
 		add(p,BorderLayout.NORTH);
 		add(list,BorderLayout.CENTER);
+		
 		addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent event){
 				System.exit(0);}});
