@@ -14,6 +14,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import java.awt.event.*;
+import java.net.*;
+
 
 public class ProjectGUI extends JFrame {
 
@@ -63,15 +66,59 @@ public class ProjectGUI extends JFrame {
     });
         panelInput.add(sendButton, BorderLayout.EAST);
     }
-    
-    public static void main(String[] args){
-        SwingUtilities.invokeLater(new Runnable(){
+}
+
+public class UDPFrame extends Frame implements ActionListener, Runnable
+{
+	public DatagramSocket dS;
+
+	public UDPFrame()
+	{
+		
+		addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent event){
+				System.exit(0);}});
+		b.addActionListener(this);
+		tMes.addActionListener(this);
+		try {label5.setText("My IP is:"+InetAddress.getLocalHost());
+			dS = new DatagramSocket(1111);
+		} catch(Exception e) {list.add(e.toString());}
+		setVisible(true);
+		new Thread(this).start();
+	}
+	
+	public void actionPerformed(ActionEvent event)
+	{
+		try {String mes=tName.getText()+">> "+tMes.getText();
+			InetAddress ia=InetAddress.getByName(tIP.getText());
+			int port=Integer.parseInt(tPort.getText());
+			byte data[] = mes.getBytes();
+			list.add(tMes.getText());
+			dS.send(new DatagramPacket(data,data.length,ia,port));
+			tMes.setText("");
+		} catch(Exception e) {list.add(e.toString());}
+	}
+
+	public void run()
+	{
+		while(true) {
+			try {DatagramPacket p = new DatagramPacket (new byte[1024], 1024);
+				dS.receive(p);
+				list.add(new String(p.getData(), 0, p.getLength()));
+			} catch(Exception e) {}
+		}
+	}
+
+	static public void main (String args[])
+	{
+		new UDPFrame();
+      
+       SwingUtilities.invokeLater(new Runnable(){
             @Override
             public void run(){
                 instance = new ProjectGUI();
                 instance.setVisible(true);
             }
         });
-    }
-
+	}
 }
